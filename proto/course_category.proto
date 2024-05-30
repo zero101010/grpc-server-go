@@ -1,0 +1,36 @@
+syntax = "proto3";
+package pb;
+option go_package = "internal/pb";
+
+
+message Blank{}
+// Define Category data structure
+message Category{
+    string id = 1;
+    string name = 2;
+    string description = 3;
+}
+// Define Category data structure Response
+message CategoryResponse{
+    Category category = 1;
+}
+// Define Category data structure that will be used to create a new category
+message CreateCategoryRequest{
+    string name = 1;
+    string description = 2;
+}
+
+message CategoryList{
+    repeated Category categories = 1;
+}
+
+message CategoryGetRequest{
+    string id = 1;
+}
+// Create the service that will be used to create a new category
+service CategoryService{
+    rpc CreateCategory(CreateCategoryRequest) returns (Category){}
+    // We need to pass some param, this blank param is like zero register in Assembly
+    rpc ListCategories(Blank) returns (CategoryList){}
+    rpc GetCategory(CategoryGetRequest) returns (CategoryResponse){}
+}
